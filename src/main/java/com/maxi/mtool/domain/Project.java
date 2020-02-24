@@ -2,11 +2,14 @@ package com.maxi.mtool.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.Date;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.validation.constraints.NotBlank;
@@ -35,6 +38,10 @@ public class Project {
   private Date create_at;
   @JsonFormat(pattern = "yyyy-mm-dd")
   private Date update_at;
+
+  @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "project")
+
+  private Backlog backlog;
 
   public Project() {
   }
@@ -101,6 +108,14 @@ public class Project {
 
   public void setUpdate_at(Date update_at) {
     this.update_at = update_at;
+  }
+
+  public Backlog getBacklog() {
+    return backlog;
+  }
+
+  public void setBacklog(Backlog backlog) {
+    this.backlog = backlog;
   }
 
   @PrePersist
